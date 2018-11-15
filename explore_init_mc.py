@@ -14,7 +14,6 @@ state_size = 100
 Iter = 10000
 length = 10000
 N = 20
-Epsilon = 1
 
 current_dir = os.getcwd()
 image_paths = [os.path.join(current_dir, "resource/w.png"), 
@@ -41,7 +40,6 @@ class Agent:
         self.gamma = 0.9
         self.update = set()
         self.seen = set()
-        self.epsilon = Epsilon
         self.arrows = [load_img(path) for path in image_paths]
 
         self.g = np.zeros((state_size, action_size))
@@ -60,7 +58,6 @@ class Agent:
                 return int(i)
 
     def sample_tra(self):
-        # print("Sampling trajectory...")
         self.states = []
         self.actions = []
         self.rewards = []
@@ -88,7 +85,6 @@ class Agent:
                     break
                 else:
                     self.states.append(s)
-        # print("Sampled {} steps.".format(len(self.states)))
 
     def visualization(self):
         game = self.game
@@ -105,8 +101,6 @@ class Agent:
         for i in range(Iter):
             if (i + 1) % 1000 == 0:
                 print("{} iterations finished.".format(i + 1))
-                self.epsilon = max(self.epsilon - Epsilon / (Iter / 1000), 0)
-                print(self.epsilon)
                 self.visualization()
                 time.sleep(3)
             self.sample_tra()
@@ -118,7 +112,6 @@ class Agent:
                     seen.add((self.states[j], self.actions[j]))
                     seen_states.add(self.states[j])
             g = 0
-            # temp = np.zeros((state_size, action_size))
             for j in range(len(self.states) - 1, -1, -1):
                 g = self.rewards[j] + self.gamma * g
                 if j in self.update:
@@ -131,10 +124,6 @@ class Agent:
             for s in seen_states:
                 a = np.argmax(self.g[s])
                 for j in range(action_size):
-                    # if j == a:
-                    #     self.policy[s, j] = 1 - self.epsilon * (action_size - 1) / action_size
-                    # else:
-                    #     self.policy[s, j] = self.epsilon / action_size
                     if j == a:
                         self.policy[s, j] = 1
                     else:
@@ -148,7 +137,6 @@ class Agent:
             time.sleep(1)
             s = self.game.male_pos
             a = self.sample_action(s)
-            # a = np.argmax()
             a = self.game.actions[a]
             r = self.game.move(a)
             print(self.policy[s])

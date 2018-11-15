@@ -64,7 +64,6 @@ class Agent:
                 return int(i)
 
     def sample_tra(self):
-        # print("Sampling trajectory...")
         self.states = []
         self.actions = []
         self.rewards = []
@@ -89,7 +88,6 @@ class Agent:
                     break
                 else:
                     self.states.append(s)
-        # print("Sampled {} steps.".format(len(self.states)))
 
     def visualization(self):
         game = self.game
@@ -106,8 +104,6 @@ class Agent:
         for i in range(Iter):
             if (i + 1) % 1000 == 0:
                 print("{} iterations finished.".format(i + 1))
-                # self.epsilon = max(self.epsilon - Epsilon / (Iter / 1000), 0)
-                # print(self.epsilon)
                 print("{} successs trajectories.".format(self.reach_end))
                 self.visualization()
                 time.sleep(3)
@@ -148,7 +144,6 @@ class Agent:
             time.sleep(1)
             s = self.game.male_pos
             a = self.sample_action(s)
-            # a = np.argmax()
             a = self.game.actions[a]
             r = self.game.move(a)
             print(self.policy[s])
