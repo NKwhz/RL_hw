@@ -13,7 +13,7 @@ from bird_class import next_state
 MAX_STEP = 100
 action_size = 4
 state_size = 100
-Iteration = 20000
+Iteration = 2000
 length = 10000
 N = 20
 Epsilon = 0.3
@@ -52,6 +52,7 @@ class Agent:
 
         self.g = np.zeros((state_size, action_size))
         self.count = np.zeros((state_size, action_size))
+        pygame.event.get()
 
     def step(self, a):
         a = self.game.actions[a]

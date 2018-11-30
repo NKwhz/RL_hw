@@ -119,6 +119,7 @@ class Game:
         
 if __name__ is "__main__":
     g = Game(MAX_STEP, (400, 400), bird_file, obstacle_file, background_file)
+    pygame.event.get()
     g.initialization()
     # d = input()
     time.sleep(3)
